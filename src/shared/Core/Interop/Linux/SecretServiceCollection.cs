@@ -261,6 +261,17 @@ namespace GitCredentialManager.Interop.Linux
             {
                 secretAttrs = secret_item_get_attributes(item);
 
+                GHashTableIter iter;
+                IntPtr keyPtr, valPtr;
+
+                g_hash_table_iter_init(&iter, secretAttrs);
+                while (g_hash_table_iter_next (&iter, &keyPtr, &valPtr))
+                  {
+                    string key = Marshal.PtrToStringAuto(keyPtr);
+                    string val = Marshal.PtrToStringAuto(valPtr);
+                    Console.WriteLine("secretAttrs['{0}'] = {1}", key, val);
+                  }
+
                 // Extract the service attribute
                 serviceKeyPtr = Marshal.StringToHGlobalAnsi(ServiceAttributeName);
                 IntPtr serviceValuePtr = g_hash_table_lookup(secretAttrs, serviceKeyPtr);

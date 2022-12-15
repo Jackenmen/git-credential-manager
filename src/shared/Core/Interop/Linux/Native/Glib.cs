@@ -9,6 +9,8 @@ namespace GitCredentialManager.Interop.Linux.Native
 
         public struct GHashTable { /* transparent */ }
 
+        public struct GHashTableIter { /* transparent */ }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct GList
         {
@@ -58,6 +60,12 @@ namespace GitCredentialManager.Interop.Linux.Native
 
         [DllImport(LibraryName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe IntPtr g_hash_table_lookup(GHashTable* hash_table, IntPtr key);
+
+        [DllImport(LibraryName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe void g_hash_table_iter_init(GHashTableIter* iter, GHashTable* hash_table);
+
+        [DllImport(LibraryName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe bool g_hash_table_iter_next(GHashTableIter* iter, IntPtr* key, IntPtr* value);
 
         [DllImport(LibraryName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe void g_list_free_full(GList* list, GDestroyNotify free_func);
